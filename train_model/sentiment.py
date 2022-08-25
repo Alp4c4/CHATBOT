@@ -24,6 +24,3 @@ while True:
 	featurized_test_sentence =  {i:(i in word_tokenize(test_sentence.lower())) for i in vocabulary}
 	print("test_sent:",test_sentence)
 	print("tag:",classifier.classify(featurized_test_sentence)) # ใช้โมเดลที่ train ประมวลผล
-# print("gu")
-# print(listneg[3])
-# print('ไง')
