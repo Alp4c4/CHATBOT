@@ -1,7 +1,7 @@
-import os
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-url = os.path.join("pos.txt")
-with open(url, encoding="utf-8") as file:
-    data = file.readlines()
+df =pd.read_csv('sen_word.csv',sep='\t',names=['text','sentiment'],header=None)
 
-print( data )
+print(df)
