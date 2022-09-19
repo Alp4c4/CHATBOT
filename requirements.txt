@@ -80,7 +80,7 @@ Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1650904496
 pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1652235407899/work
 pyrsistent @ file:///Users/runner/miniforge3/conda-bld/pyrsistent_1649013428463/work
 pythainlp==3.0.8
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+python-dateutil ==3.9.13
 pytz==2022.1
 pyzmq @ file:///Users/runner/miniforge3/conda-bld/pyzmq_1656183616117/work
 regex==2022.7.9
