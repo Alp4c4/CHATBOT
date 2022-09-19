@@ -23,4 +23,3 @@ line_bot_api = LineBotApi(lineaccesstoken)
     
 
 
-
