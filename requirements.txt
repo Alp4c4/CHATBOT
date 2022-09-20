@@ -71,7 +71,7 @@ Pygments @ file:///home/conda/feedstock_root/build_artifacts/pygments_1660666458
 pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1652235407899/work
 pyrsistent==0.18.1
 pythainlp==3.0.9
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
+python-dateutil==3.8.13
 pytz==2022.2.1
 pyzmq==24.0.0
 requests==2.28.1
