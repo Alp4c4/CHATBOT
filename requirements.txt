@@ -12,6 +12,7 @@ beautifulsoup4==4.11.1
 # certifi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_ccvvj6f93d/croots/recipe/certifi_1663615678215/work/certifi
 # cffi @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_f9af_qffaa/croots/recipe/cffi_1659598650277/work
 charset-normalizer==2.1.1
+click==8.1.3
 contourpy==1.0.5
 cycler==0.11.0
 debugpy==1.6.3
@@ -20,6 +21,7 @@ debugpy==1.6.3
 # entrypoints @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1643888246732/work
 # executing @ file:///home/conda/feedstock_root/build_artifacts/executing_1661768596365/work
 # fastjsonschema @ file:///home/conda/feedstock_root/build_artifacts/python-fastjsonschema_1663619548554/work/dist
+Flask==2.2.2
 fonttools==4.37.2
 gunicorn==20.1.0
 idna==3.4
@@ -28,6 +30,7 @@ importlib-metadata==4.12.0
 ipykernel==6.15.3
 # ipython @ file:///Users/runner/miniforge3/conda-bld/ipython_1662481590184/work
 ipython-genutils==0.2.0
+itsdangerous==2.1.2
 # jedi @ file:///home/conda/feedstock_root/build_artifacts/jedi_1659959867326/work
 # Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/jinja2_1654302431367/work
 # joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1663332044897/work
@@ -96,5 +99,6 @@ urllib3==1.26.12
 # wcwidth @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1600965781394/work
 webencodings==0.5.1
 websocket-client==1.4.1
+Werkzeug==2.2.2
 wordcloud==1.8.2.2
 # zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1659400682470/work
