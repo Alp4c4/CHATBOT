@@ -1,5 +1,5 @@
 anyio==3.6.1
-appnope @ file:///home/conda/feedstock_root/build_artifacts/appnope_1649077682618/work
+# appnope @ file:///home/conda/feedstock_root/build_artifacts/appnope_1649077682618/work
 argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
 asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1660605382950/work
