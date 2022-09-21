@@ -102,3 +102,4 @@ websocket-client==1.4.1
 Werkzeug==2.2.2
 wordcloud==1.8.2.2
 # zipp @ file:///home/conda/feedstock_root/build_artifacts/zipp_1659400682470/work
+line-bot-sdk==2.3.0
