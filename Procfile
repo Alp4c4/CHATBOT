@@ -1,1 +1,1 @@
-web:  g-unicorn chatbot:chatbot
+web:  gunicorn chatbot:chatbot
