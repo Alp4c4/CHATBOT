@@ -9,6 +9,7 @@ from wordcloud import WordCloud, STOPWORDS
 from pythainlp import word_tokenize
 from pythainlp.corpus.common import thai_stopwords
 from pythainlp import word_tokenize
+import pickle
 df = pd.read_csv('sen.txt', sep='\t', names=['text', 'sentiment'], header=None)
 thai_stopwords=list(thai_stopwords())
 def text_process(text):
@@ -36,15 +37,21 @@ pd.DataFrame(train_bow.toarray(), columns=cvec.get_feature_names(), index=X_trai
 lr = LogisticRegression()
 lr.fit(train_bow, y_train)
 
-test_bow = cvec.transform(X_test['text_tokens'])
-test_predictions = lr.predict(test_bow)
-print(classification_report(test_predictions, y_test))
+# test_bow = cvec.transform(X_test['text_tokens'])
+# test_predictions = lr.predict(test_bow)
+# print(classification_report(test_predictions, y_test))
 
-# my_text = input('\nข้อความ : ')
-# my_tokens = text_process(my_text)
-# my_bow = cvec.transform(pd.Series([my_tokens]))
-# my_predictions = lr.predict(my_bow)
-# my_predictions
+
+# while True:
+#   save_classifier = open("model.pickle","wb")
+#   pickle.dump(test_predictions ,save_classifier)
+#   save_classifier.close()
+#   break
+my_text = input('\nข้อความ : ')
+my_tokens = text_process(my_text)
+my_bow = cvec.transform(pd.Series([my_tokens]))
+my_predictions = lr.predict(my_bow)
+my_predictions
 
 	
     
