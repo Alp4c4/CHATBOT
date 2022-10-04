@@ -35,23 +35,23 @@ train_bow = cvec.transform(X_train['text_tokens'])
 pd.DataFrame(train_bow.toarray(), columns=cvec.get_feature_names(), index=X_train['text_tokens'])
 
 lr = LogisticRegression()
-lr.fit(train_bow, y_train)
+train_lr=lr.fit(train_bow, y_train)
 
-# test_bow = cvec.transform(X_test['text_tokens'])
-# test_predictions = lr.predict(test_bow)
-# print(classification_report(test_predictions, y_test))
+test_bow = cvec.transform(X_test['text_tokens'])
+test_predictions = lr.predict(test_bow)
+print(classification_report(test_predictions, y_test))
 
 
-# while True:
-#   save_classifier = open("model.pickle","wb")
-#   pickle.dump(test_predictions ,save_classifier)
-#   save_classifier.close()
-#   break
-my_text = input('\nข้อความ : ')
-my_tokens = text_process(my_text)
-my_bow = cvec.transform(pd.Series([my_tokens]))
-my_predictions = lr.predict(my_bow)
-my_predictions
+while True:
+  save_classifier = open("model.pickle","wb")
+  pickle.dump(train_lr,save_classifier)
+  save_classifier.close()
+  break
+# my_text = input('\nข้อความ : ')
+# my_tokens = text_process(my_text)
+# my_bow = cvec.transform(pd.Series([my_tokens]))
+# my_predictions = train_lr.predict(my_bow)
+# my_predictions
 
 	
     
