@@ -73,7 +73,7 @@ def event_handle(event):
 
 
 # def sen_analy
-def Clinicaldepression_test ():
-    print()
+# def Clinicaldepression_test ():
+#     print()
 if __name__ == '__main__':
     app.run(debug=True)
