@@ -26,16 +26,16 @@ line_bot_api = LineBotApi(lineaccesstoken)
 @app.route('/')
 def index():
     return "Hello World!"
-# @app.route('/webhook', methods=['POST'])
-# def callback():
-#     json_line = request.get_json(force=False,cache=False)
-#     json_line = json.dumps(json_line)
-#     decoded = json.loads(json_line)
-#     no_event = len(decoded['events'])
-#     for i in range(no_event):
-#         event = decoded['events'][i]
-#         event_handle(event)
-#     return '',200
+@app.route('/webhook', methods=['POST'])
+def callback():
+    json_line = request.get_json(force=False,cache=False)
+    json_line = json.dumps(json_line)
+    decoded = json.loads(json_line)
+    no_event = len(decoded['events'])
+    for i in range(no_event):
+        event = decoded['events'][i]
+        event_handle(event)
+    return '',200
 
 
 # def event_handle(event):
