@@ -10,6 +10,7 @@ from pythainlp import word_tokenize
 from pythainlp.corpus.common import thai_stopwords
 from pythainlp import word_tokenize
 import pickle
+from itertools import chain
 #############################################
 df = pd.read_csv('sen.txt', sep='\t', names=['text', 'sentiment'], header=None)
 thai_stopwords=list(thai_stopwords())
