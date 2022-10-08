@@ -2,11 +2,12 @@
 #-*-coding: utf-8 -*-
 ##from __future__ import absolute_import
 ###
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request,make_response
 import json
 import numpy as np
+import os 
 ###import sentiment analy
-# import UseSentiment 
+import UseSentiment 
 # import Clincaldepression_test
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
