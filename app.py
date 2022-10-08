@@ -8,7 +8,7 @@ import numpy as np
 import os 
 ###import sentiment analy
 import UseSentiment 
-# import Clincaldepression_test
+import ClinCaldepression_test
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
 )
@@ -80,4 +80,4 @@ def event_handle(event):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    ###
+    
