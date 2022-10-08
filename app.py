@@ -8,7 +8,7 @@ import numpy as np
 import os 
 ###import sentiment analy
 import UseSentiment 
-import ClinCaldepression_test
+# import ClinCaldepression_test
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
 )
