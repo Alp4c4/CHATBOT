@@ -5,7 +5,7 @@
 from flask import Flask, jsonify, render_template, request
 import json
 import numpy as np
-# import Usesentiment
+import Usesentiment
 # import Clincaldepression_test
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
