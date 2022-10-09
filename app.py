@@ -2,6 +2,7 @@
 #-*-coding: utf-8 -*-
 ##from __future__ import absolute_import
 ###
+from email import header
 from flask import Flask, jsonify, render_template, request,make_response
 import json
 import numpy as np
@@ -13,9 +14,9 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
 )
 from linebot.models.template import *
-from linebot import (
-    LineBotApi, WebhookHandler
-)
+from linebot import  LineBotApi
+from linebot.exceptions import LineBotApiError
+
 
 app = Flask(__name__)
 ###################################
@@ -26,57 +27,20 @@ line_bot_api = LineBotApi(lineaccesstoken)
 @app.route('/')
 def index():
     return "Hello World!"
-@app.route('/webhook', methods=['POST'])
-def callback():
-    json_line = request.get_json(force=False,cache=False)
-    json_line = json.dumps(json_line)
-    decoded = json.loads(json_line)
-    no_event = len(decoded['events'])
-    for i in range(no_event):
-        event = decoded['events'][i]
-        event_handle(event)
-    return '',200
-
-
-# def event_handle(event):
-#     print(event)
-#     try:
-#         userId = event['source']['userId']
-#     except:
-#         print('error cannot get userId')
-#         return ''
-
-#     try:
-#         rtoken = event['replyToken']
-#     except:
-#         print('error cannot get rtoken')
-#         return ''
-#     try:
-#         msgId = event["message"]["id"]
-#         msgType = event["message"]["type"]
-#     except:
-#         print('error cannot get msgID, and msgType')
-#         sk_id = np.random.randint(1,17)
-#         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
-#         line_bot_api.reply_message(rtoken, replyObj)
-#         return ''
-
-#     if msgType == "text":
-#         msg = str(event["message"]["text"])
-#         replyObj = TextSendMessage(text=msg)
-#         line_bot_api.reply_message(rtoken, replyObj)
-
-#     else:
-#         sk_id = np.random.randint(1,17)
-#         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
-#         line_bot_api.reply_message(rtoken, replyObj)
-#     return ''
+@app.route('/', methods=['POST'])
+def MainFunction():
+    # Getting data from Dialogflow
+    data_from_dialogflow_raw = request.get_json(silent=True,force=True)
+    # Call generating_answer function to classify the question
+    answer_from_bot=generating_answer(data_from_dialogflow_raw)
+    # Make a respond back to Dialogflow
+    r = make_response(answer_from_bot)
+    r,header['Content-Type'] = 'application/json' 
+    return r
 
 
 
-# def Usesentiment():
-# def Clinicaldepression_test ():
-#     print()
+
 if __name__ == '__main__':
     app.run(debug=True)
 
