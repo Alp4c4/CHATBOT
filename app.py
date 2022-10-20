@@ -6,9 +6,11 @@ from email import header
 
 from pkg_resources import ensure_directory
 
-from flask import Flask, jsonify, render_template, request,make_response
 import json
-import numpy as np
+import os
+from flask import Flask
+from flask import request
+from flask import make_response
 import os 
 import time
 # import UseSentiment
