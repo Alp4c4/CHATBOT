@@ -66,12 +66,13 @@ def generating_answer(data_from_dialogflow_dict):
 
 def Depression_test(respond_dict):
     #เก็บค่าจาก input dialogflow
+    d=1
     Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["any.original"]
     print("นี่เป็นแเพียงแบบทดสอบเพื่อประเมินโรคซึมเศร้าเบื้องต้น แต่หากในกรณีที่มีผลคะแนนออกมาแล้วคุณเสี่ยงที่จะเป็นโรคซึมเศร้าเราขอให้คุณพบแพทย์โดยเร็ว ด้วยความเป็นห่วงจากเรา")
     print("พร้อมที่จะทำแบบทดสอบเลยไหม")
     for i in range(9):
         print(question_for_test[i])
-        match Input_from_dialog:
+        match d:
             case "ไม่เคย":
                  print(never_answer[i])
                  score=+0
