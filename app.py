@@ -8,19 +8,15 @@ from pkg_resources import ensure_directory
 
 import json
 import os
-# from flask import Flask
-# from flask import request
-# from flask import make_response
+from flask import Flask
+from flask import request
+from flask import make_response
 import os 
 import time
 # import UseSentiment
 
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
-)
-from linebot.models.template import *
-from linebot import  LineBotApi
-from linebot.exceptions import LineBotApiError
+from linebot import LineBotApi
+from linebot.exceptions import LineBotApiErrorsource 
 
 
 app = Flask(__name__)
