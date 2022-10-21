@@ -15,9 +15,15 @@ import os
 import time
 # import UseSentiment
 
-from linebot import LineBotApi
-# from linebot.exceptions import LineBotApiErrorsource 
-
+from linebot import (
+    LineBotApi, WebhookHandler
+)
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
 
 app = Flask(__name__)
 ###################################
