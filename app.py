@@ -16,7 +16,7 @@ import time
 # import UseSentiment
 
 from linebot import LineBotApi
-from linebot.exceptions import LineBotApiErrorsource 
+# from linebot.exceptions import LineBotApiErrorsource 
 
 
 app = Flask(__name__)
