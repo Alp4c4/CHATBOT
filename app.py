@@ -44,153 +44,86 @@ score=0
 ##################################
 
 @app.route('/', methods=['POST'])
-# def MainFunction():
-#     # Getting data from Dialogflow
-#     data_from_dialogflow_raw = request.get_json(silent=True,force=True)
-#     # เรียกใช่function generating_answer
-#     answer_from_bot=generating_answer(data_from_dialogflow_raw)
-#     # ส่งค่่ากลับไปที่dialogflow
-#     r = make_response(answer_from_bot)
-#     r.header['Content-Type'] = 'application/json' 
-#     return r
-
-# def generating_answer(data_from_dialogflow_dict):
-#     #Print intent  ที่รับมาจาก dialogflow
-#     print(json.dump(data_from_dialogflow_dict,indent=4,ensure_ascii=False))
-#     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
-#     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
-#     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
-#     if intent_group_question_str=="ลองทำแบบทดสอบ":
-#         answer_str=Depression_test(data_from_dialogflow_dict)
-#     elif intent_group_question_str=="หิวจัง":
-#         answer_str="1"
-#     #สร้างการแสดงของ dict
-#     answer_from_bot ={"fulfillmentText":answer_str}
-#     #แปลงจาก dict ให้เป็น Json
-#     answer_from_bot =json.dump(answer_from_bot,indent=4)
-#     return answer_from_bot
-
-# def menu_recormentation(): #ฟังก์ชั่นสำหรับเมนูแนะนำ
-#     menu_name = 'ข้าวขาหมู'
-#     answer_function = menu_name + ' สิ น่ากินนะ'
-#     return answer_function
-# def Depression_test(respond_dict):
-#     #เก็บค่าจาก input dialogflow
-#     Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
-#     print("นี่เป็นแเพียงแบบทดสอบเพื่อประเมินโรคซึมเศร้าเบื้องต้น แต่หากในกรณีที่มีผลคะแนนออกมาแล้วคุณเสี่ยงที่จะเป็นโรคซึมเศร้าเราขอให้คุณพบแพทย์โดยเร็ว ด้วยความเป็นห่วงจากเรา")
-#     print("พร้อมที่จะทำแบบทดสอบเลยไหม")
-#     for i in range(9):
-#         print(question_for_test[i])
-#         match  Input_from_dialog:
-#             case "ไม่เคย":
-#                  print(never_answer[i])
-#                  score=+0
-#             case "มีบ้าง":
-#                  print(sometimes_answer[i])
-#                  score=+1
-#             case "ค่่อนข้างบ่อย":
-#                  print(often_answer[i])
-#                  score=+2
-#             case "มีเกือบทุกวัน":
-#                  print(all_the_time_answer[i])
-#                  score=+3
-#             case _:
-#                  print("เราไม่เข้าใจ")
-#         # if(respond_dict=="ไม่เคย"):
-#         #     print(never_answer[i])
-#         #     score=+0
-#         # elif(respond_dict=="มีบ้าง"):
-#         #     print(sometimes_answer[i])
-#         #     score=+1
-#         # elif(respond_dict=="ค่่อนข้างบ่อย"):
-#         #     print(often_answer[i])
-#         #     score=+2
-#         # elif(respond_dict=="มีเกือบทุกวัน"):
-#         #     print(all_the_time_answer[i])
-#         #     score=+3
-#     if score>=19:
-#         sum="คุณมีอาการของโรคซึมเศร้าในระดับรุนแรง"
-#     elif 13>=score<=18:
-#         sum="คุณมีอาการของโรคซึมเศร้าในระดับปานกลาง"
-#     elif 7>=score<=12:
-#         sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อย"
-#     elif score<7:
-#         sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อยมาก"
-#     return sum
-
-# # def Get_infomation(input_from_user):
-# #     print("เราขออณุญาติในการเก็บขอมูลส่วนตัว")
-# #     userID = input_from_user[]
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
 def MainFunction():
-
-    #รับ intent จาก Dailogflow
-    question_from_dailogflow_raw = request.get_json(silent=True, force=True)
-
-    #เรียกใช้ฟังก์ชัน generate_answer เพื่อแยกส่วนของคำถาม
-    answer_from_bot = generating_answer(question_from_dailogflow_raw)
-    
-    #ตอบกลับไปที่ Dailogflow
+    # Getting data from Dialogflow
+    data_from_dialogflow_raw = request.get_json(silent=True,force=True)
+    # เรียกใช่function generating_answer
+    answer_from_bot=generating_answer(data_from_dialogflow_raw)
+    # ส่งค่่ากลับไปที่dialogflow
     r = make_response(answer_from_bot)
-    r.headers['Content-Type'] = 'application/json' #การตั้งค่าประเภทของข้อมูลที่จะตอบกลับไป
-
+    r.header['Content-Type'] = 'application/json' 
     return r
 
-def generating_answer(question_from_dailogflow_dict):
-
-    #Print intent ที่รับมาจาก Dailogflow
-    print(json.dumps(question_from_dailogflow_dict, indent=4 ,ensure_ascii=False))
-
-    #เก็บต่า ชื่อของ intent ที่รับมาจาก Dailogflow
-    intent_group_question_str = question_from_dailogflow_dict["queryResult"]["intent"]["displayName"] 
-
-    #ลูปตัวเลือกของฟังก์ชั่นสำหรับตอบคำถามกลับ
-    if intent_group_question_str == 'หิวจัง':
-        answer_str = menu_recormentation()
-    elif intent_group_question_str == 'คำนวนน้ำหนัก': 
-        answer_str = BMI(question_from_dailogflow_dict)
-    else: answer_str = "ผมไม่เข้าใจ คุณต้องการอะไร"
-
-    #สร้างการแสดงของ dict 
-    answer_from_bot = {"fulfillmentText": answer_str}
-    
-    #แปลงจาก dict ให้เป็น JSON
-    answer_from_bot = json.dumps(answer_from_bot, indent=4) 
-    
+def generating_answer(data_from_dialogflow_dict):
+    #Print intent  ที่รับมาจาก dialogflow
+    print(json.dump(data_from_dialogflow_dict,indent=4,ensure_ascii=False))
+    #เก็บค่าชื่อของintentที่รับมาจากdialogflow
+    intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
+    #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
+    if intent_group_question_str=="ลองทำแบบทดสอบ":
+        answer_str=Depression_test(data_from_dialogflow_dict)
+    elif intent_group_question_str=="หิวจัง":
+        answer_str="1"
+    #สร้างการแสดงของ dict
+    answer_from_bot ={"fulfillmentText":answer_str}
+    #แปลงจาก dict ให้เป็น Json
+    answer_from_bot =json.dump(answer_from_bot,indent=4)
     return answer_from_bot
 
 def menu_recormentation(): #ฟังก์ชั่นสำหรับเมนูแนะนำ
     menu_name = 'ข้าวขาหมู'
     answer_function = menu_name + ' สิ น่ากินนะ'
     return answer_function
+def Depression_test(respond_dict):
+    #เก็บค่าจาก input dialogflow
+    Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
+    print("นี่เป็นแเพียงแบบทดสอบเพื่อประเมินโรคซึมเศร้าเบื้องต้น แต่หากในกรณีที่มีผลคะแนนออกมาแล้วคุณเสี่ยงที่จะเป็นโรคซึมเศร้าเราขอให้คุณพบแพทย์โดยเร็ว ด้วยความเป็นห่วงจากเรา")
+    print("พร้อมที่จะทำแบบทดสอบเลยไหม")
+    for i in range(9):
+        print(question_for_test[i])
+        match  Input_from_dialog:
+            case "ไม่เคย":
+                 print(never_answer[i])
+                 score=+0
+            case "มีบ้าง":
+                 print(sometimes_answer[i])
+                 score=+1
+            case "ค่่อนข้างบ่อย":
+                 print(often_answer[i])
+                 score=+2
+            case "มีเกือบทุกวัน":
+                 print(all_the_time_answer[i])
+                 score=+3
+            case _:
+                 print("เราไม่เข้าใจ")
+        # if(respond_dict=="ไม่เคย"):
+        #     print(never_answer[i])
+        #     score=+0
+        # elif(respond_dict=="มีบ้าง"):
+        #     print(sometimes_answer[i])
+        #     score=+1
+        # elif(respond_dict=="ค่่อนข้างบ่อย"):
+        #     print(often_answer[i])
+        #     score=+2
+        # elif(respond_dict=="มีเกือบทุกวัน"):
+        #     print(all_the_time_answer[i])
+        #     score=+3
+    if score>=19:
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับรุนแรง"
+    elif 13>=score<=18:
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับปานกลาง"
+    elif 7>=score<=12:
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อย"
+    elif score<7:
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อยมาก"
+    return sum
 
-def BMI(respond_dict): #ฟังก์ชั่นสำหรับคำนวนน้ำหนัก
-
-    #เก็บค่าของ Weight กับ Height
-    weight1 = float(respond_dict["queryResult"]["outputContexts"][1]["parameters"]["Weight.original"])
-    height1 = float(respond_dict["queryResult"]["outputContexts"][1]["parameters"]["Height.original"])
+# def Get_infomation(input_from_user):
+#     print("เราขออณุญาติในการเก็บขอมูลส่วนตัว")
+#     userID = input_from_user[]
+# def plus_test(respond_dict):
     
-    #คำนวนน้ำหนัก
-    BMI = weight1/(height1/100)**2
-    if BMI < 18.5 :
-        answer_function = "ผอมจัง"
-    elif 18.5 <= BMI < 23.0:
-        answer_function = "สมส่วน"
-    elif 23.0 <= BMI < 25.0:
-        answer_function = "ค่อนข้างอ้วน"
-    elif 25.0 <= BMI < 30:
-        answer_function = "อ้วนล่ะนะ"
-    else :
-        answer_function = "อ้วนมากจ้าา"
-    return answer_function
 
-#Flask
 if __name__ == '__main__':
-    port = int(os.getenv('PORT', 5000))
-    print("Starting app on port %d" % port)
-    app.run(debug=False, port=port, host='0.0.0.0', threaded=True)
+    app.run(debug=True)
 
-    
