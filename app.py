@@ -29,7 +29,13 @@ app = Flask(__name__)
 ###################################
 lineaccesstoken = 'CFGppk8AuPQl705iQwgP8cZE9Gn4CumoTp7BYNvKnbOtf9zSqOkRyFgMgz9fM/U58jsG2LyPB5ds7R99GHZde3y95T5988EWSbLEU0upcB6c12HhIYf4V+d+4oki21kgciXeA0fn5CxPienZ7e5UVwdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
-
+####################################
+from random import randint
+import firebase_admin
+from firebase_admin import credentials
+from firevase_admin import firestore 
+cred=credentials.Certificate("")
+firebase_admin.initialize_app(cred)
 ###################################
 question_for_test=[("ที่ผ่านมาคุณเป็นอย่างไรบ้าง รู้สึกมีเรื่องที่ไม่สบายใจหรือท้อแท้บ้างไหม"),("คุณรู้สึกเหนื่อยง่าย ไม่กระปรี้กระเปร่าบ้างไหม"),("คุณรู้สึกเบื่ออาหาร หรือกินมากเกินไปไหม"),("คุณรู้สึกว่าตัวเองหลับยาก หลับๆตื่นๆ หรือ หลับมากเกินไปไหม"),("คุณรู้สึกเบื่อบ้างไหม"),("คุณไม่มีสมาธิ เวลาทำงานที่ต้องใช้ความตั้งใจ เช่นการดูโทรทัศน์ หรือ อ่านหนังสือ ไหม"),("คุณรู้สึกว่าตัวเองพูดช้า ทำอะไรช้าลง จนคนอื่นสังเกตเห็นได้ หรือกระสับกระส่ายไม่สามารถอยู่นิ่งได้เหมือนที่เคยเป็นไหม"),("คุณรู้สึกไม่ดีกับตัวเอง คิดว่าตัวเองล้มเหลว หรือทำให้ตนเองหรือครอบครัวผิดหวังไหม"),("คุณคิดที่จะทำร้ายตนเอง หรือคิดว่าถ้าตายไปคงจะดี ไหม")]
 never_answer=["เยี่ยมมากงั้นเราไปกันต่อเลยนะ","งั้นแสดงว่าคุณพักผ่อนได้เพียงพอและยังสนุกกับการทำสิ่งใหม่ๆอยู่ทุกวันแน่เลย","ดีแล้วอย่าลืมหาอะไรอร่อยๆกินด้วยนะ","ดีมากเลยคุณจะได้มีแรงเพื่อทำสิ่งที่ชอบในแต่ละวันได้อย่างเต็มที่","วันนี้คุณคงมีเรื่องสนุกๆให้ทำแน่เลย","โห แสดงว่าคุณมีความตั้งใจและมุ่งมั่นต่อสิ่งที่ทำอยู่ตลอดเวลาเลยนะ","โห แสดงว่าคุณต้องเป็นคนที่มีพลังงานเชิงบวกเยอะแน่ๆเลย","ขอให้เป้าหมายที่คุณตั้งไว้สำเร็จลุล่วง เราจะคอยเป็นกำลังใจให้คุณเอง","ดีแล้วค่ะอย่าทำอะไรอย่างงั้นเลยเราเป็นห่วงคุณนะ"]
@@ -70,13 +76,12 @@ def generating_answer(data_from_dialogflow_dict):
 
 def Depression_test(respond_dict):
     #เก็บค่าจาก input dialogflow
-    d=1
-    Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["any.original"]
+    Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
     print("นี่เป็นแเพียงแบบทดสอบเพื่อประเมินโรคซึมเศร้าเบื้องต้น แต่หากในกรณีที่มีผลคะแนนออกมาแล้วคุณเสี่ยงที่จะเป็นโรคซึมเศร้าเราขอให้คุณพบแพทย์โดยเร็ว ด้วยความเป็นห่วงจากเรา")
     print("พร้อมที่จะทำแบบทดสอบเลยไหม")
     for i in range(9):
         print(question_for_test[i])
-        match d:
+        match  Input_from_dialog:
             case "ไม่เคย":
                  print(never_answer[i])
                  score=+0
@@ -91,8 +96,6 @@ def Depression_test(respond_dict):
                  score=+0
             case _:
                  print("เราไม่เข้าใจ")
-                 
-        break
         # if(respond_dict=="ไม่เคย"):
         #     print(never_answer[i])
         #     score=+0
