@@ -12,7 +12,8 @@ from flask import Flask
 from flask import request
 from flask import make_response
 # import UseSentiment
-
+import Usesentiment
+####################
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -123,6 +124,12 @@ def Depression_test(respond_dict):
 #     userID = input_from_user[]
 # def plus_test(respond_dict):
     
+def Chat_with_me(respond_dict):
+    text_input=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
