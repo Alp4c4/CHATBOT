@@ -66,14 +66,18 @@ def generating_answer(data_from_dialogflow_dict):
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
     if intent_group_question_str=="ลองทำแบบทดสอบ":
         answer_str=Depression_test(data_from_dialogflow_dict)
-
+    elif intent_group_question_str=="ิหิวจัง":
+        answer_str=answer_str = menu_recormentation()
     #สร้างการแสดงของ dict
     answer_from_bot ={"fulfillmentText":answer_str}
     #แปลงจาก dict ให้เป็น Json
     answer_from_bot =json.dump(answer_from_bot,indent=4)
     return answer_from_bot
 
-
+def menu_recormentation(): #ฟังก์ชั่นสำหรับเมนูแนะนำ
+    menu_name = 'ข้าวขาหมู'
+    answer_function = menu_name + ' สิ น่ากินนะ'
+    return answer_function
 def Depression_test(respond_dict):
     #เก็บค่าจาก input dialogflow
     Input_from_dialog=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
@@ -86,14 +90,14 @@ def Depression_test(respond_dict):
                  print(never_answer[i])
                  score=+0
             case "มีบ้าง":
-                 print(never_answer[i])
-                 score=+0
+                 print(sometimes_answer[i])
+                 score=+1
             case "ค่่อนข้างบ่อย":
-                 print(never_answer[i])
-                 score=+0
+                 print(often_answer[i])
+                 score=+2
             case "มีเกือบทุกวัน":
-                 print(never_answer[i])
-                 score=+0
+                 print(all_the_time_answer[i])
+                 score=+3
             case _:
                  print("เราไม่เข้าใจ")
         # if(respond_dict=="ไม่เคย"):
@@ -109,13 +113,13 @@ def Depression_test(respond_dict):
         #     print(all_the_time_answer[i])
         #     score=+3
     if score>=19:
-        sum=print("คุณมีอาการของโรคซึมเศร้าในระดับรุนแรง")
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับรุนแรง"
     elif 13>=score<=18:
-        sum=print("คุณมีอาการของโรคซึมเศร้าในระดับปานกลาง")
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับปานกลาง"
     elif 7>=score<=12:
-        sum=print("คุณมีอาการของโรคซึมเศร้าในระดับน้อย")
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อย"
     elif score<7:
-        sum=print("คุณมีอาการของโรคซึมเศร้าในระดับน้อยมาก")
+        sum="คุณมีอาการของโรคซึมเศร้าในระดับน้อยมาก"
     return sum
 
 # def Get_infomation(input_from_user):
