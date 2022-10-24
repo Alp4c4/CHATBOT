@@ -42,16 +42,16 @@ test_predictions = lr.predict(test_bow)
 print(classification_report(test_predictions, y_test))
 
 
-while True:
-  save_classifier = open("model.pickle","wb")
-  pickle.dump(train_lr,save_classifier)
-  save_classifier.close()
-  break
-# my_text = input('\nข้อความ : ')
-# my_tokens = text_process(my_text)
-# my_bow = cvec.transform(pd.Series([my_tokens]))
-# my_predictions = train_lr.predict(my_bow)
-# my_predictions
+# while True:
+  # save_classifier = open("model.pickle","wb")
+  # pickle.dump(train_lr,save_classifier)
+  # save_classifier.close()
+  # break 
+my_text = input('\nข้อความ : ')
+my_tokens = text_process(my_text)
+my_bow = cvec.transform(pd.Series([my_tokens]))
+my_predictions = train_lr.predict(my_bow)
+my_predictions
 
 	
     

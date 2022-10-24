@@ -128,7 +128,7 @@ def Chat_with_me(respond_dict):
     text_input=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
 
 
-
+# def defult_welcome():
 
 
 if __name__ == '__main__':

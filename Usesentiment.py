@@ -29,11 +29,10 @@ classifier_f.close()
 #     return final
 # df['text_tokens'] = df['text'].apply(text_process)
 
-# # train_model
+# train_model
 # X = df[['text_tokens']]
 # y = df['sentiment']
 # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.01,random_state=1)
-
 
 # cvec = CountVectorizer(analyzer=lambda x:x.split(' '))
 # cvec.fit_transform(X_train['text_tokens'])
@@ -43,12 +42,13 @@ classifier_f.close()
 # train_bow = cvec.transform(X_train['text_tokens'])
 # pd.DataFrame(train_bow.toarray(), columns=cvec.get_feature_names(), index=X_train['text_tokens'])
 
-# classifier= LogisticRegression()
-# classifier.fit(train_bow, y_train)
+# lr = LogisticRegression()f
+# train_lr=lr.fit(train_bow, y_train)
 
 # test_bow = cvec.transform(X_test['text_tokens'])
-# test_predictions = classifier.predict(test_bow)
+# test_predictions = lr.predict(test_bow)
 # print(classification_report(test_predictions, y_test))
+
 def useSentiment(my_text):
     my_tokens = text_process(my_text)
     my_bow = cvec.transform(pd.Series([my_tokens]))
