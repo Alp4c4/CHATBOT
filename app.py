@@ -12,7 +12,7 @@ from flask import Flask
 from flask import request
 from flask import make_response
 # import UseSentiment
-import Usesentiment
+# import Usesentiment
 ####################
 from linebot import (
     LineBotApi, WebhookHandler
@@ -57,14 +57,14 @@ def MainFunction():
 
 def generating_answer(data_from_dialogflow_dict):
     #Print intent  ที่รับมาจาก dialogflow
-    print(json.dump(data_from_dialogflow_dict,indent=4,ensure_ascii=False))
+    print(json.dumps(data_from_dialogflow_dict, indent=4 ,ensure_ascii=False))
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
     if intent_group_question_str=="ลองทำแบบทดสอบ":
         answer_str=Depression_test(data_from_dialogflow_dict)
     elif intent_group_question_str=="หิวจัง":
-        answer_str=Chat_with_me(data_from_dialogflow_dict)
+        answer_str = menu_recormentation()
     #สร้างการแสดงของ dict
     answer_from_bot ={"fulfillmentText":answer_str}
     #แปลงจาก dict ให้เป็น Json
@@ -124,9 +124,9 @@ def Depression_test(respond_dict):
 #     userID = input_from_user[]
 # def plus_test(respond_dict):
     
-def Chat_with_me(respond_dict):
-    text_input=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
-    return text_input
+# def Chat_with_me(respond_dict):
+#     text_input=respond_dict["queryResult"]["outputContexts"][1]["parameters"]["textinput.original"]
+#     return text_input
 
 
 # def defult_welcome():
