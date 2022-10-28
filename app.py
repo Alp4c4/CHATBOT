@@ -163,13 +163,11 @@ def loop_check(data)  :
 def Chat_with_me(input_from_user):
     userID = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     user_text = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
-    global emotion
     analyzed_word=str(Usesentiment.useSentiment(str(user_text)))
-    return analyzed_word
-    # if analyzed_word=="pos":
-    #     return "เป็ด"
-    # elif analyzed_word=="neg":
-    #     return "ไก่"
+    if analyzed_word=='pos':
+            return "pos"
+    elif analyzed_word=='neg':
+            return "neg"
 def user_info(data):
     age=data["queryResult"]["outputContexts"][1]["parameters"]["age"]
     gender=data["queryResult"]["outputContexts"][1]["parameters"]["gender"]
