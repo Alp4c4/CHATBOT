@@ -14,7 +14,7 @@ from pkg_resources import ensure_directory
 
 import json
 import os
-from flask import Flask,abort, g
+from flask import Flask, make_response, request
 from flask import request
 from flask import make_response
 import requests
@@ -77,6 +77,7 @@ def MainFunction():
 
 def generating_answer(data_from_dialogflow_dict):
     user_Id=data_from_dialogflow_dict["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    response_id=data_from_dialogflow_dict["responseId"]
     user_text = data_from_dialogflow_dict["queryResult"]["queryText"]
     #Print intent  ที่รับมาจาก dialogflow
     print(json.dumps(data_from_dialogflow_dict, indent=4 ,ensure_ascii=False))
@@ -89,7 +90,8 @@ def generating_answer(data_from_dialogflow_dict):
     #         global g_r
     #         answer_str=cal_Score(g_r)
     if intent_group_question_str=="พร้อม2":
-        loop_check(data_from_dialogflow_dict)         
+        loop_check(data_from_dialogflow_dict)
+                 
     elif intent_group_question_str=="พร้อม3":
         loop_check(data_from_dialogflow_dict)            
     elif intent_group_question_str=="พร้อม4":
@@ -109,16 +111,15 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ดู":
         status=cal_Score()
         # answer_str=status
-        answer_str=check_respone(status)
-       
         update_status(status,data_from_dialogflow_dict)
+        answer_str=check_respone(status)
 
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
                  
         
-    elif intent_group_question_str=="เล่า":
-        answer_str=notifyPic()
+    # elif intent_group_question_str=="เล่า":
+    #     answer_str=notifyPic()
     elif intent_group_question_str=="มี2":
          answer_str=  Chat_with_me(data_from_dialogflow_dict)
     elif intent_group_question_str=="ยินยอม2":
@@ -126,7 +127,7 @@ def generating_answer(data_from_dialogflow_dict):
        
     # else :
     #     answer_str= "เราไม่เข้าใจ"
-    answer_from_bot ={"fulfillmentText": answer_str}
+    answer_from_bot ={"fulfillmentMessages":[{"image":{"imageUri":answer_str},"platform": "LINE"}]}
             
                     #แปลงจาก dict ให้เป็น JSON
     answer_from_bot = json.dumps(answer_from_bot, indent=4) 
@@ -144,36 +145,38 @@ def update_status(status,data):
         u'status':status
     }) 
 def notifyPic(url):  
-    reply=image(url)
+    
 #     image_message = ImageSendMessage(
 #     original_content_url=url,
 #     preview_image_url=url
 # )
-#     # return  image_message
-#     reply={"payload":{"line":
-#     {"contents": {
-#       "type": "bubble",
-#       "header": {
-#         "layout": "vertical",
-#         "type": "box",
-#         "contents": [
-#        {
-#             "type": "image",
-#             "url": url,
-#             "margin": "none",
-#             "size": "3xl"
-#         }
-#         ]
-#       },
-     
-      
-#     },
-#     "altText": "Flex Message",
-#     "type": "flex"
-#     }
-#   }
-#     }
-    
+    # return  image_message
+    reply={
+  "line": {
+    "altText": "Flex Message",
+    "contents": {
+      "body": {
+        "contents": [
+             {
+        "type": "image",
+        "url": url,
+        "margin": "none",
+        "size": "3xl"
+      }
+        ],
+        "layout": "vertical",
+        "type": "box"
+      },
+      "type": "bubble",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+      }
+    },
+    "type": "flex",
+    "platform": "LINE"
+  }
+}
     return reply
 
 def check_respone(answer):
