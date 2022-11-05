@@ -112,7 +112,7 @@ def generating_answer(data_from_dialogflow_dict):
         status=cal_Score()
         # answer_str=status
         update_status(status,data_from_dialogflow_dict)
-        answer_str=check_respone(status)
+        answer_str=notifyPic(check_respone(status))
 
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
@@ -127,7 +127,7 @@ def generating_answer(data_from_dialogflow_dict):
        
     # else :
     #     answer_str= "เราไม่เข้าใจ"
-    answer_from_bot ={"fulfillmentMessages":[{"image":{"imageUri":answer_str},"platform": "LINE"}]}
+    answer_from_bot ={"fulfillmentMessages":answer_str}
             
                     #แปลงจาก dict ให้เป็น JSON
     answer_from_bot = json.dumps(answer_from_bot, indent=4) 
@@ -151,32 +151,7 @@ def notifyPic(url):
 #     preview_image_url=url
 # )
     # return  image_message
-    reply={
-  "line": {
-    "altText": "Flex Message",
-    "contents": {
-      "body": {
-        "contents": [
-             {
-        "type": "image",
-        "url": url,
-        "margin": "none",
-        "size": "3xl"
-      }
-        ],
-        "layout": "vertical",
-        "type": "box"
-      },
-      "type": "bubble",
-      "header": {
-        "type": "box",
-        "layout": "vertical",
-      }
-    },
-    "type": "flex",
-    "platform": "LINE"
-  }
-}
+    reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
 
 def check_respone(answer):
