@@ -90,8 +90,7 @@ def generating_answer(data_from_dialogflow_dict):
     #         global g_r
     #         answer_str=cal_Score(g_r)
     if intent_group_question_str=="พร้อม2":
-        loop_check(data_from_dialogflow_dict)
-                 
+        loop_check(data_from_dialogflow_dict)         
     elif intent_group_question_str=="พร้อม3":
         loop_check(data_from_dialogflow_dict)            
     elif intent_group_question_str=="พร้อม4":
@@ -113,15 +112,16 @@ def generating_answer(data_from_dialogflow_dict):
         # answer_str=status
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
-
+    
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
-                 
+    elif intent_group_question_str=="คำแนะนำ1":
+        answer_str=advice(data_from_dialogflow_dict)        
         
     # elif intent_group_question_str=="เล่า":
     #     answer_str=notifyPic()
-    elif intent_group_question_str=="มี2":
-         answer_str=  Chat_with_me(data_from_dialogflow_dict)
+    # elif intent_group_question_str=="มี2":
+    #      answer_str=  Chat_with_me(data_from_dialogflow_dict)
     elif intent_group_question_str=="ยินยอม2":
           answer_str=user_info(data_from_dialogflow_dict)
        
@@ -133,24 +133,44 @@ def generating_answer(data_from_dialogflow_dict):
     answer_from_bot = json.dumps(answer_from_bot, indent=4) 
     print(answer_from_bot)
     return answer_from_bot
-# def _linerespone(payload,file=None):
-#     url = 'https://notify-api.line.me/api/notify'
-#     token = 'CFGppk8AuPQl705iQwgP8cZE9Gn4CumoTp7BYNvKnbOtf9zSqOkRyFgMgz9fM/U58jsG2LyPB5ds7R99GHZde3y95T5988EWSbLEU0upcB6c12HhIYf4V+d+4oki21kgciXeA0fn5CxPienZ7e5UVwdB04t89/1O/w1cDnyilFU='
-#     headers = {'Authorization':'Bearer '+token}
-#     return requests.post(url, headers=headers , data = payload, files=file)
+def advice(data):
+    if data =="ท้อแท้":
+        a=[{"text": {"text": ["We could find few matching products based on your query"]}}]
+    elif data=="เรื่องที่ไม่สบายใจ":
+        a=1
+    elif data=="เบื่ออาหาร":
+        a=1
+    elif data=="หลับยาก":
+        a=1
+    elif data=="เบื่อ":
+        a=1
+    elif data=="ไม่มีสมาธิ":
+        a=1
+    elif data=="ทำอะไรช้าลง":
+        a=1
+    elif data=="รู้สึกไม่ดีกับตัวเอง":
+        a=1
+    elif data=="คิดทำร้ายตัวเอง":
+        a=1
+    return a
     
 def update_status(status,data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     db.collection('User').document(f'{user_Id}').update({
         u'status':status
     }) 
+def user_info(data):
+    age=data["queryResult"]["outputContexts"][1]["parameters"]["age"]
+    gender=data["queryResult"]["outputContexts"][1]["parameters"]["gender"]
+    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    db.collection('User').document(f'{user_Id}').set({
+        u'userId':user_Id,
+        u'age':age,
+        u'gender':gender,
+        u'status':""
+    }) 
+    return "บันทึกข้อมูลเสร็จสิ้น"
 def notifyPic(url):  
-    
-#     image_message = ImageSendMessage(
-#     original_content_url=url,
-#     preview_image_url=url
-# )
-    # return  image_message
     reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
 
@@ -190,25 +210,15 @@ def loop_check(data)  :
         upround(2)
     elif user_answer=="มีเกือบทุกวัน":
         upround(3)
-def Chat_with_me(input_from_user):
-    userID = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    user_text = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
-    analyzed_word=str(Usesentiment.useSentiment(str(user_text)))
-    if analyzed_word=='pos':
-            return "pos"
-    elif analyzed_word=='neg':
-            return "neg"
-def user_info(data):
-    age=data["queryResult"]["outputContexts"][1]["parameters"]["age"]
-    gender=data["queryResult"]["outputContexts"][1]["parameters"]["gender"]
-    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    db.collection('User').document(f'{user_Id}').set({
-        u'userId':user_Id,
-        u'age':age,
-        u'gender':gender,
-        u'status':""
-    }) 
-    return "บันทึกข้อมูลเสร็จสิ้น"
+# def Chat_with_me(input_from_user):
+#     userID = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+#     user_text = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
+#     analyzed_word=str(Usesentiment.useSentiment(str(user_text)))
+#     if analyzed_word=='pos':
+#             return "pos"
+#     elif analyzed_word=='neg':
+#             return "neg"
+
 def show_record(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     user=db.collection('User').document(f'{user_Id}').count()
