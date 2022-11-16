@@ -54,7 +54,7 @@ firebase_admin.initialize_app(cred,{'storageBucket':'gs://depreesion-4eb38.appsp
 g_r=0
 emotion=0
 bucket=storage.bucket()
-
+url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
 #############################
 db = firestore.client()
 app = Flask(__name__)
@@ -116,8 +116,7 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
     elif intent_group_question_str=="คำแนะนำ1":
-        answer_str=advice(data_from_dialogflow_dict)        
-        
+        answer_str=notifyPic(advice_1(data_from_dialogflow_dict))
     # elif intent_group_question_str=="เล่า":
     #     answer_str=notifyPic()
     # elif intent_group_question_str=="มี2":
@@ -133,26 +132,7 @@ def generating_answer(data_from_dialogflow_dict):
     answer_from_bot = json.dumps(answer_from_bot, indent=4) 
     print(answer_from_bot)
     return answer_from_bot
-def advice(data):
-    if data =="ท้อแท้":
-        a=[{"text": {"text": ["We could find few matching products based on your query"]}}]
-    elif data=="เรื่องที่ไม่สบายใจ":
-        a=1
-    elif data=="เบื่ออาหาร":
-        a=1
-    elif data=="หลับยาก":
-        a=1
-    elif data=="เบื่อ":
-        a=1
-    elif data=="ไม่มีสมาธิ":
-        a=1
-    elif data=="ทำอะไรช้าลง":
-        a=1
-    elif data=="รู้สึกไม่ดีกับตัวเอง":
-        a=1
-    elif data=="คิดทำร้ายตัวเอง":
-        a=1
-    return a
+
     
 def update_status(status,data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
@@ -210,6 +190,26 @@ def loop_check(data)  :
         upround(2)
     elif user_answer=="มีเกือบทุกวัน":
         upround(3)
+def advice_1(data):
+    if data =="ท้อแท้":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/1.jpg?alt=media&token=78cafbeb-4462-4bbe-89aa-9b76dd211874',
+    elif data=="เรื่องที่ไม่สบายใจ":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/2.jpg?alt=media&token=f03dc04a-601a-44d4-b862-38e535858ad1',
+    elif data=="เบื่ออาหาร":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/3.jpg?alt=media&token=052465db-5a33-4747-9192-2d64e152aaed',
+    elif data=="หลับยาก":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/4.jpg?alt=media&token=d99b4767-6032-4996-8386-7c18c252fc7b',
+    elif data=="เบื่อ":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/5.jpg?alt=media&token=b2ef8ab1-4401-4b70-90c3-b9772f12d3f6',
+    elif data=="ไม่มีสมาธิ":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/6.jpg?alt=media&token=6a43f9d1-84ac-44ec-82cc-320c775a54c9',
+    elif data=="ทำอะไรช้าลง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/7.jpg?alt=media&token=cda2aca2-173e-47c4-bce8-712402a3d29a',
+    elif data=="รู้สึกไม่ดีกับตัวเอง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/8.jpg?alt=media&token=533b6c61-3233-4c10-9cf1-22f993ff70a6',
+    elif data=="คิดทำร้ายตัวเอง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/9.jpg?alt=media&token=ae9d91c7-d48c-49dc-803c-102fdaa3415a',
+    return url
 # def Chat_with_me(input_from_user):
 #     userID = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
 #     user_text = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
