@@ -53,8 +53,8 @@ firebase_admin.initialize_app(cred,{'storageBucket':'gs://depreesion-4eb38.appsp
 # all_the_time_answer=["ช่วงนี้คงหนักมากสำหรับคุณ แต่ไม่เป็นไรนะ เราอยู่ข้างๆคุณเสมอ","ลองพักจากสิ่งที่ทำอยู่ แล้วออกไปสูดอากาศบริสุทธิ์ข้างนอกดูดีไหม จะได้รู้สึกสดชื่น เมื่อพักอย่างเต็มที่แล้วจะได้มีแรงทำสิ่งต่างๆได้อย่างเต็มที่","ลองเปลี่ยนบรรยากาศหรือสถานที่ในการรับประทานอาหารไหม คุณจะได้รู้สึกสนุกกับการรับประทานอาหารมากขึ้นน้า","ถ้าคุณทุกข์ใจหรือมีเรื่องที่ไม่สบายใจ อย่าเครียดไปเลยนะ ทุกปัญหามีทางออกเสมอ ปล่อยใจให้สงบตั้งสติดีๆ แล้วคุณจะผ่านไปได้ทุกเรื่องนะ","ไม่เป็นไรนะ ลองออกกำลังกาย หลับพักผ่อนให้เพียงพอ คุณจะได้รู้สึกกระปรี้กระเปร่า และอย่าลืมรับประทานอาหารอร่อยๆ และมีประโยชน์ด้วยนะคุณจะได้มีแรงในการทำกิจกรรมต่างๆได้เต็มที่","ลองออกกำลังกายก่อนที่จะต้องจดจ่อกับงาน หรือเมื่อต้องการพักสมองดูนะคะ จะทำให้เรามีสมาธิมากขึ้น หรือคุณอาจจะไปออกไปเดินสูดอากาศข้างนอกก้ได้นะ","อย่าเครียดเกินไปเลยนะคะมันมีแต่ผลไม่ดีต่อร่างกายและจิตลองหาสิ่งใหม่ๆทำให้มี  พลังทั้งกายและจิตใจเพิ่มนะ","คุณไม่ได้ตัวคนเดียวลำพังนะ ฉันอยู่ที่นี่กับคุณเอง","ฉันไม่รู้ว่าคุณไปเจออะไรมาบ้าง แต่ฉันจะไม่ทิ้งคุณและฉันจะอยู่ข้างๆคุณเองนะ"]
 g_r=0
 emotion=0
+# photo_url=0
 bucket=storage.bucket()
-url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
 #############################
 db = firestore.client()
 app = Flask(__name__)
@@ -116,14 +116,14 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
     elif intent_group_question_str=="คำแนะนำ1":
-        answer_str=notifyPic(advice_1(data_from_dialogflow_dict))
+        url=check_advice(data_from_dialogflow_dict)
+        answer_str=notifyPic(url)
     # elif intent_group_question_str=="เล่า":
     #     answer_str=notifyPic()
     # elif intent_group_question_str=="มี2":
     #      answer_str=  Chat_with_me(data_from_dialogflow_dict)
     elif intent_group_question_str=="ยินยอม2":
           answer_str=user_info(data_from_dialogflow_dict)
-       
     # else :
     #     answer_str= "เราไม่เข้าใจ"
     answer_from_bot ={"fulfillmentMessages":answer_str}
@@ -132,8 +132,27 @@ def generating_answer(data_from_dialogflow_dict):
     answer_from_bot = json.dumps(answer_from_bot, indent=4) 
     print(answer_from_bot)
     return answer_from_bot
-
-    
+def check_advice(answer):
+    answer=answer["queryResult"]["queryText"]
+    if answer=='ท้อแท้':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/1.jpg?alt=media&token=78cafbeb-4462-4bbe-89aa-9b76dd211874'
+    elif answer=='เรื่องที่ไม่สบายใจ':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/2.jpg?alt=media&token=f03dc04a-601a-44d4-b862-38e535858ad1'
+    elif answer=='เบื่ออาหาร':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/3.jpg?alt=media&token=052465db-5a33-4747-9192-2d64e152aaed'
+    elif answer=='หลับยาก':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/4.jpg?alt=media&token=d99b4767-6032-4996-8386-7c18c252fc7b'
+    elif answer=='เบื่อ':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/5.jpg?alt=media&token=b2ef8ab1-4401-4b70-90c3-b9772f12d3f6'
+    elif answer=='ไม่มีสมาธิ':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/6.jpg?alt=media&token=6a43f9d1-84ac-44ec-82cc-320c775a54c9'
+    elif answer=='ทำอะไรช้าลง':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/7.jpg?alt=media&token=cda2aca2-173e-47c4-bce8-712402a3d29a' 
+    elif answer=='รู้สึกไม่ดีกับตัวเอง':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/8.jpg?alt=media&token=533b6c61-3233-4c10-9cf1-22f993ff70a6'
+    elif answer=='คิดทำร้ายตัวเอง':
+        photo_url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/9.jpg?alt=media&token=ae9d91c7-d48c-49dc-803c-102fdaa3415a'
+    return photo_url
 def update_status(status,data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     db.collection('User').document(f'{user_Id}').update({
@@ -153,30 +172,6 @@ def user_info(data):
 def notifyPic(url):  
     reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
-
-def check_respone(answer):
-    if answer =="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย":    
-        url= 'https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
-    elif answer =="ระดับน้อย":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/little.png?alt=media&token=6417a605-ce7a-4875-849f-2feeadebb866',
-    elif answer =="ระดับปานกลาง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/medium.png?alt=media&token=b49c9e52-acd4-402e-9630-0d37c9d4ab2b'
-    elif answer =="ระดับรุนแรง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/severe.png?alt=media&token=53678518-9998-440e-be1e-76401383aed8',    
-    return url
-def cal_Score():   
-    global g_r
-    score= g_r
-    if score<7:
-        sum="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย"
-    elif 7<=score<=12:
-        sum="ระดับน้อย"
-    elif 13<=score<=18:
-        sum="ระดับปานกลาง"
-    elif score>=19:
-        sum="ระดับรุนแรง" 
-    return sum
-
 def upround(data_from):
     global g_r
     g_r=g_r+data_from
@@ -190,26 +185,30 @@ def loop_check(data)  :
         upround(2)
     elif user_answer=="มีเกือบทุกวัน":
         upround(3)
-def advice_1(data):
-    if data =="ท้อแท้":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/1.jpg?alt=media&token=78cafbeb-4462-4bbe-89aa-9b76dd211874',
-    elif data=="เรื่องที่ไม่สบายใจ":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/2.jpg?alt=media&token=f03dc04a-601a-44d4-b862-38e535858ad1',
-    elif data=="เบื่ออาหาร":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/3.jpg?alt=media&token=052465db-5a33-4747-9192-2d64e152aaed',
-    elif data=="หลับยาก":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/4.jpg?alt=media&token=d99b4767-6032-4996-8386-7c18c252fc7b',
-    elif data=="เบื่อ":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/5.jpg?alt=media&token=b2ef8ab1-4401-4b70-90c3-b9772f12d3f6',
-    elif data=="ไม่มีสมาธิ":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/6.jpg?alt=media&token=6a43f9d1-84ac-44ec-82cc-320c775a54c9',
-    elif data=="ทำอะไรช้าลง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/7.jpg?alt=media&token=cda2aca2-173e-47c4-bce8-712402a3d29a',
-    elif data=="รู้สึกไม่ดีกับตัวเอง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/8.jpg?alt=media&token=533b6c61-3233-4c10-9cf1-22f993ff70a6',
-    elif data=="คิดทำร้ายตัวเอง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/9.jpg?alt=media&token=ae9d91c7-d48c-49dc-803c-102fdaa3415a',
+def cal_Score():   
+    global g_r
+    score= g_r
+    if score<7:
+        sum="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย"
+    elif 7<=score<=12:
+        sum="ระดับน้อย"
+    elif 13<=score<=18:
+        sum="ระดับปานกลาง"
+    elif score>=19:
+        sum="ระดับรุนแรง" 
+    return sum
+def check_respone(answer):
+    if answer =="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย":    
+        url= 'https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
+    elif answer =="ระดับน้อย":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/little.png?alt=media&token=6417a605-ce7a-4875-849f-2feeadebb866',
+    elif answer =="ระดับปานกลาง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/medium.png?alt=media&token=b49c9e52-acd4-402e-9630-0d37c9d4ab2b'
+    elif answer =="ระดับรุนแรง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/severe.png?alt=media&token=53678518-9998-440e-be1e-76401383aed8',    
     return url
+######################################################################################
+
 # def Chat_with_me(input_from_user):
 #     userID = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
 #     user_text = input_from_user["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
