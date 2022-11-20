@@ -35,7 +35,7 @@ from linebot.models import (
 
 
 ###################################
-lineaccesstoken = 'CFGppk8AuPQl705iQwgP8cZE9Gn4CumoTp7BYNvKnbOtf9zSqOkRyFgMgz9fM/U58jsG2LyPB5ds7R99GHZde3y95T5988EWSbLEU0upcB6c12HhIYf4V+d+4oki21kgciXeA0fn5CxPienZ7e5UVwdB04t89/1O/w1cDnyilFU='
+lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
 handler = WebhookHandler('cf3954fc20dc1f7221437b5f0b811e85')
 ###################################
@@ -90,6 +90,8 @@ def generating_answer(data_from_dialogflow_dict):
     #         global g_r
     #         answer_str=cal_Score(g_r)
     if intent_group_question_str=="พร้อม2":
+        global g_r
+        g_r=0
         loop_check(data_from_dialogflow_dict)         
     elif intent_group_question_str=="พร้อม3":
         loop_check(data_from_dialogflow_dict)            
@@ -112,7 +114,8 @@ def generating_answer(data_from_dialogflow_dict):
         # answer_str=status
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
-    
+    elif intent_group_question_str=="ผลการประเมิน":
+        answer_str=notifyPic(recheck(data_from_dialogflow_dict))
     elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
         answer_str=show_record(data_from_dialogflow_dict)
     elif intent_group_question_str=="คำแนะนำ1":
@@ -205,6 +208,18 @@ def check_respone(answer):
     elif answer =="ระดับปานกลาง":
         url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/medium.png?alt=media&token=b49c9e52-acd4-402e-9630-0d37c9d4ab2b'
     elif answer =="ระดับรุนแรง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/severe.png?alt=media&token=53678518-9998-440e-be1e-76401383aed8',    
+    return url
+def recheck(data):
+    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    status=db.reference('User/%s/status',user_Id)
+    if status =="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย":    
+        url= 'https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
+    elif status =="ระดับน้อย":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/little.png?alt=media&token=6417a605-ce7a-4875-849f-2feeadebb866',
+    elif status =="ระดับปานกลาง":
+        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/medium.png?alt=media&token=b49c9e52-acd4-402e-9630-0d37c9d4ab2b'
+    elif status =="ระดับรุนแรง":
         url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/severe.png?alt=media&token=53678518-9998-440e-be1e-76401383aed8',    
     return url
 ######################################################################################
