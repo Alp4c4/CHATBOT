@@ -18,6 +18,8 @@ from flask import Flask, make_response, request
 from flask import request
 from flask import make_response
 import requests
+# import UseSentiment
+# import Usesentiment
 ####################
 from linebot import (
     LineBotApi, WebhookHandler,
@@ -52,7 +54,7 @@ bucket=storage.bucket()
 #############################
 db = firestore.client()
 app = Flask(__name__)
-@app.route('/') 
+@app.route('/', methods=['POST']) 
 def MainFunction():
   
    
@@ -77,7 +79,12 @@ def generating_answer(data_from_dialogflow_dict):
     print(json.dumps(data_from_dialogflow_dict, indent=4 ,ensure_ascii=False))
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
-    
+    #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
+    # if intent_group_question_str=="พร้อม":
+    #     
+    # if intent_group_question_str=="ดู":
+    #         global g_r
+    #         answer_str=cal_Score(g_r)
     if intent_group_question_str=="พร้อม2":
         global g_r
         g_r=0
@@ -202,9 +209,9 @@ def check_respone(answer):
     return url
 def recheck(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    status=db.reference(u'User')
-    recheck=status.get()  
-    print (recheck)
+    # status=db.refera(u'User')
+    # recheck=status.get()  
+    # print ('{} : {}'.format(recheck.user_Id,recheck.to_dict()))
     # return status
 ######################################################################################
 
