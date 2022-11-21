@@ -19,7 +19,7 @@ from flask import request
 from flask import make_response
 import requests
 # import UseSentiment
-import Usesentiment
+# import Usesentiment
 ####################
 from linebot import (
     LineBotApi, WebhookHandler,
@@ -30,10 +30,6 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 )
-
-
-
-
 ###################################
 lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
@@ -115,9 +111,10 @@ def generating_answer(data_from_dialogflow_dict):
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
-        answer_str=notifyPic(recheck(data_from_dialogflow_dict))
-    elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
-        answer_str=show_record(data_from_dialogflow_dict)
+        recheck(data_from_dialogflow_dict)
+        # answer_str=notifyPic(check_respone(check))
+    # elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
+    #     answer_str=show_record(data_from_dialogflow_dict)
     elif intent_group_question_str=="คำแนะนำ1":
         url=check_advice(data_from_dialogflow_dict)
         answer_str=notifyPic(url)
@@ -212,16 +209,10 @@ def check_respone(answer):
     return url
 def recheck(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    status=db.reference('User/%s/status',user_Id)
-    if status =="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย":    
-        url= 'https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
-    elif status =="ระดับน้อย":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/little.png?alt=media&token=6417a605-ce7a-4875-849f-2feeadebb866',
-    elif status =="ระดับปานกลาง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/medium.png?alt=media&token=b49c9e52-acd4-402e-9630-0d37c9d4ab2b'
-    elif status =="ระดับรุนแรง":
-        url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/severe.png?alt=media&token=53678518-9998-440e-be1e-76401383aed8',    
-    return url
+    status=db.reference(u'User')
+    recheck=status.get()  
+    print (recheck)
+    # return status
 ######################################################################################
 
 # def Chat_with_me(input_from_user):
@@ -233,10 +224,10 @@ def recheck(data):
 #     elif analyzed_word=='neg':
 #             return "neg"
 
-def show_record(data):
-    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    user=db.collection('User').document(f'{user_Id}').count()
-    return user
+# def show_record(data):
+#     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+#     user=db.collection('User').document(f'{user_Id}').count()
+#     return user
 if __name__ == '__main__':
     app.run(debug=True)
 
