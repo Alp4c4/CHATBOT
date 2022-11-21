@@ -22,12 +22,12 @@ import requests
 from linebot import (
     LineBotApi, WebhookHandler,
 )
-# from linebot.exceptions import (
-#     InvalidSignatureError
-# )
-# from linebot.models import (
-#     MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
-# )
+from linebot.exceptions import (
+    InvalidSignatureError
+)
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
+)
 ###################################
 lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
