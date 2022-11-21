@@ -18,8 +18,6 @@ from flask import Flask, make_response, request
 from flask import request
 from flask import make_response
 import requests
-# import UseSentiment
-# import Usesentiment
 ####################
 from linebot import (
     LineBotApi, WebhookHandler,
@@ -79,12 +77,7 @@ def generating_answer(data_from_dialogflow_dict):
     print(json.dumps(data_from_dialogflow_dict, indent=4 ,ensure_ascii=False))
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
-    #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
-    # if intent_group_question_str=="พร้อม":
-    #     
-    # if intent_group_question_str=="ดู":
-    #         global g_r
-    #         answer_str=cal_Score(g_r)
+    
     if intent_group_question_str=="พร้อม2":
         global g_r
         g_r=0
@@ -228,6 +221,6 @@ def recheck(data):
 #     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
 #     user=db.collection('User').document(f'{user_Id}').count()
 #     return user
-if __name__ == '__main__':
+if __name__ == '__app__':
     app.run(debug=True)
 
