@@ -2,15 +2,15 @@
 #-*-coding: utf-8 -*-
 ##from __future__ import absolute_import
 ###
-from cgitb import handler
-from email import header
-from re import S
-from tkinter import scrolledtext
-from turtle import update
-from matplotlib import image
-from numpy import deprecate, round_
+# from cgitb import handler
+# from email import header
+# from re import S
+# from tkinter import scrolledtext
+# from turtle import update
+# from matplotlib import image
+# from numpy import deprecate, round_
 
-from pkg_resources import ensure_directory
+# from pkg_resources import ensure_directory
 
 import json
 import os
@@ -22,12 +22,12 @@ import requests
 from linebot import (
     LineBotApi, WebhookHandler,
 )
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
-)
+# from linebot.exceptions import (
+#     InvalidSignatureError
+# )
+# from linebot.models import (
+#     MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
+# )
 ###################################
 lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
@@ -221,6 +221,6 @@ def recheck(data):
 #     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
 #     user=db.collection('User').document(f'{user_Id}').count()
 #     return user
-if __name__ == '__app__':
+if __name__ == '__main__':
     app.run(debug=True)
 
