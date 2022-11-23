@@ -209,9 +209,9 @@ def check_respone(answer):
     return url
 def recheck(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    # status=db.refera(u'User')
-    # recheck=status.get()  
-    # print ('{} : {}'.format(recheck.user_Id,recheck.to_dict()))
+    doc_ref = db.collection(u'cities').document(u'%s',user_Id).user_Id('status')
+    doc = doc_ref.get()
+    print (doc)
     # return status
 ######################################################################################
 
