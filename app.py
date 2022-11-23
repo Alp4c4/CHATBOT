@@ -111,8 +111,8 @@ def generating_answer(data_from_dialogflow_dict):
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
-        recheck(data_from_dialogflow_dict)
-        # answer_str=notifyPic(check_respone(check))
+        check= recheck(data_from_dialogflow_dict)
+        answer_str=notifyPic(check_respone(check))
     # elif intent_group_question_str=="ผู้ใช้ทั้งหมด" :  
     #     answer_str=show_record(data_from_dialogflow_dict)
     elif intent_group_question_str=="คำแนะนำ1":
@@ -211,8 +211,8 @@ def recheck(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     doc_ref = db.collection(u'cities').document(u'%s',user_Id).user_Id('status')
     doc = doc_ref.get()
-    print (doc)
-    # return status
+    # print (doc)
+    return doc
 ######################################################################################
 
 # def Chat_with_me(input_from_user):
