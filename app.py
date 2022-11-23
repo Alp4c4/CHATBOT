@@ -53,6 +53,7 @@ emotion=0
 bucket=storage.bucket()
 #############################
 db = firestore.client()
+collection=db.collection('User')
 app = Flask(__name__)
 @app.route('/', methods=['POST']) 
 def MainFunction():
@@ -209,10 +210,10 @@ def check_respone(answer):
     return url
 def recheck(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    doc_ref = db.collection(u'cities').document(u'%s',user_Id).user_Id('status')
-    doc = doc_ref.get()
-    # print (doc)
-    return doc
+    doc=collection.document(user_Id)
+    res=doc.get().to_dict()
+    resp=res['status']
+    return resp
 ######################################################################################
 
 # def Chat_with_me(input_from_user):
