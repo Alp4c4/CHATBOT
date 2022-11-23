@@ -87,8 +87,6 @@ def generating_answer(data_from_dialogflow_dict):
     #         global g_r
     #         answer_str=cal_Score(g_r)
     if intent_group_question_str=="พร้อม2":
-        global g_r
-        g_r=0
         loop_check(data_from_dialogflow_dict)         
     elif intent_group_question_str=="พร้อม3":
         loop_check(data_from_dialogflow_dict)            
@@ -109,6 +107,8 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ดู":
         status=cal_Score()
         # answer_str=status
+        global g_r
+        g_r=0
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
