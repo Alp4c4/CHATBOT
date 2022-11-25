@@ -1,34 +1,12 @@
-# !/usr/bin/python
-#-*-coding: utf-8 -*-
-##from __future__ import absolute_import
-###
-# from cgitb import handler
-# from email import header
-# from re import S
-# from tkinter import scrolledtext
-# from turtle import update
-# from matplotlib import image
-# from numpy import deprecate, round_
-
-# from pkg_resources import ensure_directory
-
 import json
 import os
 from flask import Flask, make_response, request
 from flask import request
 from flask import make_response
 import requests
-# import UseSentiment
-# import Usesentiment
 ####################
 from linebot import (
     LineBotApi, WebhookHandler,
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage
 )
 ###################################
 lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
