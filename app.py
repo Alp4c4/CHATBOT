@@ -143,7 +143,7 @@ def cal_Score():
     global g_r
     score= g_r
     if score<7:
-        sum="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย"
+        sum="ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าในปริมาณน้อย"
     elif 7<=score<=12:
         sum="ระดับน้อย"
     elif 13<=score<=18:
@@ -152,7 +152,7 @@ def cal_Score():
         sum="ระดับรุนแรง" 
     return sum
 def check_respone(answer):
-    if answer =="ไม่มีอาการของโรงซึมเศร้าหรือมีอาการของโรงซึมเศร้าในปริมาณน้อย":    
+    if answer =="ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าในปริมาณน้อย":    
         url= 'https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/normal.png?alt=media&token=bb8998dd-1c5a-4c99-8ff9-23cc3e765763',
     elif answer =="ระดับน้อย":
         url='https://firebasestorage.googleapis.com/v0/b/depreesion-4eb38.appspot.com/o/little.png?alt=media&token=6417a605-ce7a-4875-849f-2feeadebb866',
