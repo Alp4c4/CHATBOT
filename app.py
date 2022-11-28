@@ -47,6 +47,8 @@ def generating_answer(data_from_dialogflow_dict):
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
     if intent_group_question_str=="พร้อม2":
+        global g_r
+        g_r=0
         loop_check(data_from_dialogflow_dict)         
     elif intent_group_question_str=="พร้อม3":
         loop_check(data_from_dialogflow_dict)            
@@ -66,8 +68,6 @@ def generating_answer(data_from_dialogflow_dict):
         loop_check(data_from_dialogflow_dict)              
     elif intent_group_question_str=="ดู1":
         status=cal_Score()
-        # global g_r
-        # g_r=0
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
