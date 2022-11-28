@@ -54,17 +54,17 @@ def generating_answer(data_from_dialogflow_dict):
         loop_check(data_from_dialogflow_dict)
     elif intent_group_question_str=="พร้อม5":
         loop_check(data_from_dialogflow_dict)                 
-    elif intent_group_question_str=="พร้อม6":
+    elif intent_group_question_str=="พร้อม6_":
         loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม7":
+    elif intent_group_question_str=="พร้อม7_":
         loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม8":
+    elif intent_group_question_str=="พร้อม8_":
         loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม9":
+    elif intent_group_question_str=="พร้อม9_":
         loop_check(data_from_dialogflow_dict)               
-    elif intent_group_question_str=="ตรวจสอบ":
+    elif intent_group_question_str=="ตรวจสอบ1":
         loop_check(data_from_dialogflow_dict)              
-    elif intent_group_question_str=="ดู":
+    elif intent_group_question_str=="ดู1":
         status=cal_Score()
         # global g_r
         # g_r=0
