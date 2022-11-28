@@ -66,8 +66,6 @@ def generating_answer(data_from_dialogflow_dict):
         loop_check(data_from_dialogflow_dict)              
     elif intent_group_question_str=="ดู1":
         status=cal_Score()
-        global g_r
-        g_r=0
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
@@ -150,6 +148,7 @@ def cal_Score():
         sum="ระดับปานกลาง"
     elif score>=19:
         sum="ระดับรุนแรง" 
+    g_r=0
     return sum
 def check_respone(answer):
     if answer =="ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าในปริมาณน้อย":    
