@@ -142,9 +142,9 @@ def cal_Score():
     score= g_r
     if score<7:
         sum="ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าในปริมาณน้อย"
-    elif 7<=score<=12:
+    elif 7<=score&score<=12:
         sum="ระดับน้อย"
-    elif 13<=score<=18:
+    elif 13<=score&score<=18:
         sum="ระดับปานกลาง"
     elif score>=19:
         sum="ระดับรุนแรง" 
