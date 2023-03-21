@@ -27,7 +27,7 @@ bucket=storage.bucket()
 db = firestore.client()
 collection=db.collection('User')
 app = Flask(__name__)
-@app.route('/', methods=['POST']) 
+@app.route('/',methods=['POST']) 
 def MainFunction():
     #รับ intent จาก Dailogflow
     data_from_dialogflow_raw = request.get_json(silent=True, force=True)
@@ -46,24 +46,8 @@ def generating_answer(data_from_dialogflow_dict):
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
-    if intent_group_question_str=="พร้อม2":
-        loop_check(data_from_dialogflow_dict)         
-    elif intent_group_question_str=="พร้อม3":
-        loop_check(data_from_dialogflow_dict)            
-    elif intent_group_question_str=="พร้อม4":
-        loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม5":
-        loop_check(data_from_dialogflow_dict)                 
-    elif intent_group_question_str=="พร้อม6_":
-        loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม7_":
-        loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม8_":
-        loop_check(data_from_dialogflow_dict)
-    elif intent_group_question_str=="พร้อม9_":
-        loop_check(data_from_dialogflow_dict)               
-    elif intent_group_question_str=="ตรวจสอบ1":
-        loop_check(data_from_dialogflow_dict)              
+    if intent_group_question_str=="ชื่อ":
+        receive(user_text)     
     elif intent_group_question_str=="ดู1":
         status=cal_Score()
         update_status(status,data_from_dialogflow_dict)
@@ -111,13 +95,19 @@ def update_status(status,data):
         u'status':status
     }) 
 def user_info(data):
+    username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
+    userlastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
+    usernickname=data["queryResult"]["outputContexts"][1]["parameters"]["nickname"]
     age=data["queryResult"]["outputContexts"][1]["parameters"]["age"]
     gender=data["queryResult"]["outputContexts"][1]["parameters"]["gender"]
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    db.collection('User').document(f'{user_Id}').set({
-        u'userId':user_Id,
+    db.collection('User').document(f'{username}').set({
+        u'username':username,
+        u'userlastname':userlastname,
+        u'usernickname':usernickname,
         u'age':age,
         u'gender':gender,
+        u'userId':user_Id,
         u'status':""
     }) 
     return "บันทึกข้อมูลเสร็จสิ้น"
@@ -127,6 +117,7 @@ def notifyPic(url):
 def upround(data_from):
     global g_r
     g_r=g_r+data_from
+    print(g_r)
 def loop_check(data)  :
     user_answer = data["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
     if user_answer =="ไม่เคย":
@@ -142,9 +133,9 @@ def cal_Score():
     score= g_r
     if score<7:
         sum="ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้าในปริมาณน้อย"
-    elif 7<=score&score<=12:
+    elif 7<=score<=12:
         sum="ระดับน้อย"
-    elif 13<=score&score<=18:
+    elif 13<=score<=18:
         sum="ระดับปานกลาง"
     elif score>=19:
         sum="ระดับรุนแรง" 
@@ -168,5 +159,5 @@ def recheck(data):
     return resp
 ######################################################################################
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug='True')
 
