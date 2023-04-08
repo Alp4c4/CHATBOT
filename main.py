@@ -21,6 +21,8 @@ cred=credentials.Certificate("depreesion-4eb38-firebase-adminsdk-r6lnp-402912a06
 firebase_admin.initialize_app(cred,{'storageBucket':'gs://depreesion-4eb38.appspot.com'})
 ##################################
 g_r=0
+urname=''
+urlastname=''
 emotion=0
 bucket=storage.bucket()
 #############################
@@ -46,9 +48,12 @@ def generating_answer(data_from_dialogflow_dict):
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
-    if intent_group_question_str=="ชื่อ":
-        receive(user_text)     
-    elif intent_group_question_str=="ดู1":
+    if intent_group_question_str=="เก็บข้อมูล":
+       answer_str=user_info(data_from_dialogflow_dict)
+    elif intent_group_question_str=="start_con":
+        global g_r 
+        g_r =0
+    elif intent_group_question_str=="ดูผลการประเมิน":
         status=cal_Score()
         update_status(status,data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
@@ -60,6 +65,64 @@ def generating_answer(data_from_dialogflow_dict):
         answer_str=notifyPic(url)
     elif intent_group_question_str=="ยินยอม2":
           answer_str=user_info(data_from_dialogflow_dict)
+    elif intent_group_question_str=="ลอง":
+          answer_str=upround()
+    elif intent_group_question_str=="ดูการประเมินย้อนหลัง":
+          answer_str
+    elif intent_group_question_str=="มีบ้าง_คิดทำร้ายตัวเอง":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_ทำอะไรช้าลง":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_รู้สึกไม่ดีกับตัวเอง":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_หลับยาก":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_เบื่อ":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_เบื่ออาหาร":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_เรื่องเครียด":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_เหนื่อยง่าย":
+        loop_check(1)
+    elif intent_group_question_str=="มีบ้าง_ไม่มีสมาธิ":
+        loop_check(1)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_คิดทำร้ายตัวเอง":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_ทำอะไรช้าลง":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_รู้สึกไม่ดีกับตัวเอง":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_หลับยาก":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_เบื่อ":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_เบื่ออาหาร":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_เรื่องเครียด":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_เหนื่อยง่าย":
+        loop_check(2)
+    elif intent_group_question_str=="มีค่อนข้างบ่อย_ไม่มีสมาธิ":
+        loop_check(2)
+    elif intent_group_question_str=="มีเกือบทุกวัน_คิดทำร้ายตัวเอง":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_ทำอะไรช้าลง":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_รู้สึกไม่ดีกับตัวเอง":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_หลับยาก":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_เบื่อ":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_เบื่ออาหาร":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_เรื่องเครียด":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_เหนื่อยง่าย":
+        loop_check(3)
+    elif intent_group_question_str=="มีเกือบทุกวัน_ไม่มีสมาธิ":
+        loop_check(3)
     # else :
     #     answer_str= "เราไม่เข้าใจ"
     answer_from_bot ={"fulfillmentMessages":answer_str}
@@ -96,38 +159,49 @@ def update_status(status,data):
     }) 
 def user_info(data):
     username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
-    userlastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
-    usernickname=data["queryResult"]["outputContexts"][1]["parameters"]["nickname"]
-    age=data["queryResult"]["outputContexts"][1]["parameters"]["age"]
+    lastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
+    nickname=data["queryResult"]["outputContexts"][1]["parameters"]["nickname1"]
+    age=data["queryResult"]["outputContexts"][1]["parameters"]["number"]
     gender=data["queryResult"]["outputContexts"][1]["parameters"]["gender"]
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
-    db.collection('User').document(f'{username}').set({
+    db.collection('User').document(f'{user_Id}').set({
         u'username':username,
-        u'userlastname':userlastname,
-        u'usernickname':usernickname,
+        u'userlastname':lastname,
+        u'usernickname':nickname,
         u'age':age,
         u'gender':gender,
         u'userId':user_Id,
+        u'round':"1",
         u'status':""
     }) 
+    doc_ref = db.collection('User').document(f'{user_Id}')
+    sub_collection_ref = doc_ref.collection('1')
+    sub_collection_ref.set({
+        u'tired':"",
+        u'sleep':"",
+        u'concern':"",
+        u'myself':"",
+        u'concentration':"",
+        u'do slow':"",
+        u'hurt yourself':"",
+        u'bored':"",
+        u'meal':"",
+        u'status':"",
+    })
     return "บันทึกข้อมูลเสร็จสิ้น"
 def notifyPic(url):  
     reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
-def upround(data_from):
-    global g_r
-    g_r=g_r+data_from
-    print(g_r)
+def upround(data):#this function make  
+    username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
+    lastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
+    print(username+'!!!!!!!!!!!!!!!!!!')
+    print(lastname+'!!!!!!!!!!!!!!!!!!!!')
+    
 def loop_check(data)  :
-    user_answer = data["originalDetectIntentRequest"]["payload"]["data"]["message"]["text"]
-    if user_answer =="ไม่เคย":
-        upround(0)
-    elif user_answer=="มีบ้าง":
-        upround(1)
-    elif user_answer=="ค่อนข้างบ่อย":
-        upround(2)
-    elif user_answer=="มีเกือบทุกวัน":
-        upround(3)
+    global g_r
+    g_r=g_r+data
+    print(g_r)
 def cal_Score():   
     global g_r
     score= g_r
