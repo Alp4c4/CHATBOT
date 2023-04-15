@@ -4,6 +4,7 @@ from flask import Flask, make_response, request
 from flask import request
 from flask import make_response
 import requests
+import datetime
 ####################
 from linebot import (
     LineBotApi, WebhookHandler,
@@ -56,6 +57,8 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ดูผลการประเมิน":
         status=cal_Score()
         update_status(status,data_from_dialogflow_dict)
+        update_date_and_status(data_from_dialogflow_dict,status)
+        update_data(data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
     elif intent_group_question_str=="ผลการประเมิน":
         check= recheck(data_from_dialogflow_dict)
@@ -65,64 +68,120 @@ def generating_answer(data_from_dialogflow_dict):
         answer_str=notifyPic(url)
     elif intent_group_question_str=="ยินยอม2":
           answer_str=user_info(data_from_dialogflow_dict)
-    elif intent_group_question_str=="ลอง":
-          answer_str=upround()
+    # elif intent_group_question_str=="ลอง":
+    #       answer_str=upround()
     elif intent_group_question_str=="ดูการประเมินย้อนหลัง":
           answer_str
+################################################
+    elif intent_group_question_str=="ไม่เคยคิดทำร้ายตัวเอง":
+        loop_check(0)
+        add_status('hurt yourself','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่ทำอะไรช้าลง":
+        loop_check(0)
+        add_status('do slow','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่เคยคิดว่าตัวเองล้มเหลว":
+        loop_check(0)
+        add_status('myself','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่หลับยาก":
+        loop_check(0)
+        add_status('sleep','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่เบื่อ":
+        loop_check(0)
+        add_status('bored','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่เบื่ออาหาร":
+        loop_check(0)
+        add_status('meal','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่มีเรื่องเครียด":
+        loop_check(0)
+        add_status('concern','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่เหนื่อยง่าย":
+        loop_check(0)
+        add_status('tired','ไม่เคย',data_from_dialogflow_dict)
+    elif intent_group_question_str=="ไม่ไม่มีสมาธิ":
+        loop_check(0)
+        add_status('concentration','ไม่เคย',data_from_dialogflow_dict)
+###########
     elif intent_group_question_str=="มีบ้าง_คิดทำร้ายตัวเอง":
         loop_check(1)
+        add_status('hurt yourself','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_ทำอะไรช้าลง":
         loop_check(1)
+        add_status('do slow','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_รู้สึกไม่ดีกับตัวเอง":
         loop_check(1)
+        add_status('myself','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_หลับยาก":
         loop_check(1)
+        add_status('sleep','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_เบื่อ":
         loop_check(1)
+        add_status('bored','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_เบื่ออาหาร":
         loop_check(1)
+        add_status('meal','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_เรื่องเครียด":
         loop_check(1)
+        add_status('concern','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_เหนื่อยง่าย":
         loop_check(1)
+        add_status('tired','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีบ้าง_ไม่มีสมาธิ":
         loop_check(1)
+        add_status('concentration','มีบ้าง',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_คิดทำร้ายตัวเอง":
         loop_check(2)
+        add_status('hurt yourself','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_ทำอะไรช้าลง":
         loop_check(2)
+        add_status('do slow','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_รู้สึกไม่ดีกับตัวเอง":
         loop_check(2)
+        add_status('myself','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_หลับยาก":
         loop_check(2)
+        add_status('sleep','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_เบื่อ":
         loop_check(2)
+        add_status('bored','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_เบื่ออาหาร":
         loop_check(2)
+        add_status('meal','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_เรื่องเครียด":
         loop_check(2)
+        add_status('concern','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_เหนื่อยง่าย":
         loop_check(2)
+        add_status('tired','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีค่อนข้างบ่อย_ไม่มีสมาธิ":
         loop_check(2)
+        add_status('concentration','มีค่อนข้างบ่อย',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_คิดทำร้ายตัวเอง":
         loop_check(3)
+        add_status('hurt yourself','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_ทำอะไรช้าลง":
         loop_check(3)
+        add_status('do slow','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_รู้สึกไม่ดีกับตัวเอง":
         loop_check(3)
+        add_status('myself','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_หลับยาก":
         loop_check(3)
+        add_status('sleep','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_เบื่อ":
         loop_check(3)
+        add_status('bored','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_เบื่ออาหาร":
         loop_check(3)
+        add_status('meal','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_เรื่องเครียด":
         loop_check(3)
+        add_status('concern','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_เหนื่อยง่าย":
         loop_check(3)
+        add_status('tired','มีเกือบทุกวัน',data_from_dialogflow_dict)
     elif intent_group_question_str=="มีเกือบทุกวัน_ไม่มีสมาธิ":
         loop_check(3)
+        add_status('concentration','มีเกือบทุกวัน',data_from_dialogflow_dict)
     # else :
     #     answer_str= "เราไม่เข้าใจ"
     answer_from_bot ={"fulfillmentMessages":answer_str}
@@ -157,6 +216,7 @@ def update_status(status,data):
     db.collection('User').document(f'{user_Id}').update({
         u'status':status
     }) 
+###################################################
 def user_info(data):
     username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
     lastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
@@ -175,8 +235,8 @@ def user_info(data):
         u'status':""
     }) 
     doc_ref = db.collection('User').document(f'{user_Id}')
-    sub_collection_ref = doc_ref.collection('1')
-    sub_collection_ref.set({
+    sub_collection_ref = doc_ref.collection('รอบในการทำประเมิน')
+    sub_collection_ref.document(f'1').set({
         u'tired':"",
         u'sleep':"",
         u'concern':"",
@@ -187,17 +247,61 @@ def user_info(data):
         u'bored':"",
         u'meal':"",
         u'status':"",
+        u'datetime':""
     })
-    return "บันทึกข้อมูลเสร็จสิ้น"
+    return 'บันทึกข้อมูลเสร็จสิ้น'
+def update_data(data):
+    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    doc_ref = db.collection('User').document(f'{user_Id}')
+    sub_collection_ref = doc_ref.collection('รอบในการทำประเมิน')
+    doc=collection.document(user_Id)
+    res=doc.get().to_dict()
+    resp=res['round']
+    resp=resp+1
+    db.collection('User').document(f'{user_Id}').update({
+        u'round':resp
+    })
+    sub_collection_ref.document(f'{resp}').set({
+        u'tired':"",
+        u'sleep':"",
+        u'concern':"",
+        u'myself':"",
+        u'concentration':"",
+        u'do slow':"",
+        u'hurt yourself':"",
+        u'bored':"",
+        u'meal':"",
+        u'status':"",
+        u'datetime':""
+    })  
+def update_date_and_status(data,status):
+    status=status
+    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    doc_ref = db.collection('User').document(f'{user_Id}')
+    sub_collection_ref = doc_ref.collection('รอบในการทำประเมิน')
+    doc=collection.document(user_Id)
+    res=doc.get().to_dict()
+    resp=res['round']
+    now=datetime.now()
+    formatted_date=now.strftime("%d/%m/%Y")
+    sub_collection_ref.document(f'{resp}').update({
+        u'status':status,
+        u'datetime':formatted_date
+    })  
+
+#########################################
 def notifyPic(url):  
     reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
-def upround(data):#this function make  
-    username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
-    lastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
-    print(username+'!!!!!!!!!!!!!!!!!!')
-    print(lastname+'!!!!!!!!!!!!!!!!!!!!')
-    
+# def upround(data):#this function make  
+#     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+#     doc_ref = db.collection('User').document(f'{user_Id}')
+#     res=doc_ref.get().to_dict()
+#     resp=res['round']
+#     resp=resp+1
+#     db.collection('User').document(f'{user_Id}').update({
+#         u'round':resp
+#     })
 def loop_check(data)  :
     global g_r
     g_r=g_r+data
@@ -231,6 +335,55 @@ def recheck(data):
     res=doc.get().to_dict()
     resp=res['status']
     return resp
+#######################################
+def add_status(topic,status,data):
+    topic=topic
+    status=status
+    ######
+    user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
+    doc_ref = db.collection('User').document(f'{user_Id}')
+    sub_collection_ref = doc_ref.collection('รอบในการทำประเมิน')
+    doc=collection.document(user_Id)
+    res=doc.get().to_dict()
+    resp=res['round']
+   
+    ######
+    if  topic=='tired':
+        sub_collection_ref.document(f'{resp}').update({
+        u'tired':status,
+    })
+    elif topic=='sleep':
+        sub_collection_ref.document(f'{resp}').update({
+        u'sleep':status,
+    })
+    elif topic=='concern':
+        sub_collection_ref.document(f'{resp}').update({
+        u'concern':status,
+    })
+    elif topic=='myself':
+        sub_collection_ref.document(f'{resp}').update({
+        u'myself':status,
+    })
+    elif topic=='concentration':
+        sub_collection_ref.document(f'{resp}').update({
+        u'concentration':status,
+    })
+    elif topic=='do slow':
+        sub_collection_ref.document(f'{resp}').update({
+        u'do slow':status,
+    })
+    elif topic=='hurt yourself':
+        sub_collection_ref.document(f'{resp}').update({
+        u'hurt yourself':status,
+    })
+    elif topic=='bored':
+        sub_collection_ref.document(f'{resp}').update({
+        u'bored':status,
+    })
+    elif topic=='meal':
+        sub_collection_ref.document(f'{resp}').update({
+        u'meal':status,
+    })
 ######################################################################################
 if __name__ == '__main__':
     app.run(debug='True')
