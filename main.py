@@ -1,3 +1,4 @@
+#############importlibต่างๆ################
 import json
 import os
 from flask import Flask, make_response, request
@@ -5,32 +6,31 @@ from flask import request
 from flask import make_response
 import requests
 import datetime
-####################
 from linebot import (
     LineBotApi, WebhookHandler,
 )
-###################################
+##############เชื่อมกับline#####################
 lineaccesstoken = 'AE3nyFWyOAPMb7XmIjx/dXlFurdfhez3IJ34et7hLsRduBzDkeB7oDb2vntVLdiwav2K033FVNs4uIEiRslvU99/2gUxYK7WUAZ6ytOVXgTYSXp1mDZ6KWSlsnoQJgBzjMaT9XHwToLnAH0I2XiI3AdB04t89/1O/w1cDnyilFU='
 line_bot_api = LineBotApi(lineaccesstoken)
 handler = WebhookHandler('cf3954fc20dc1f7221437b5f0b811e85')
-###################################
-from random import randint
+###############เชื่อมกับfirebase####################
 import firebase_admin
 from firebase_admin import credentials,storage
 from firebase_admin import firestore 
 cred=credentials.Certificate("depreesion-4eb38-firebase-adminsdk-r6lnp-402912a06a.json")
 firebase_admin.initialize_app(cred,{'storageBucket':'gs://depreesion-4eb38.appspot.com'})
-##################################
+###############ประกาศตัวแปรไว้ใช้ในcode##################
 g_r=0
 urname=''
 urlastname=''
 emotion=0
 bucket=storage.bucket()
-#############################
 db = firestore.client()
 collection=db.collection('User')
+##################################
 app = Flask(__name__)
 @app.route('/',methods=['POST']) 
+##############fanctionในการรับและส่งค่ากลับchatbot#####################
 def MainFunction():
     #รับ intent จาก Dailogflow
     data_from_dialogflow_raw = request.get_json(silent=True, force=True)
@@ -72,7 +72,7 @@ def generating_answer(data_from_dialogflow_dict):
     #       answer_str=upround()
     elif intent_group_question_str=="ดูการประเมินย้อนหลัง":
           answer_str
-################################################
+#####################loopcheckintents###########################
     elif intent_group_question_str=="ไม่เคยคิดทำร้ายตัวเอง":
         loop_check(0)
         add_status('hurt yourself','ไม่เคย',data_from_dialogflow_dict)
@@ -100,7 +100,6 @@ def generating_answer(data_from_dialogflow_dict):
     elif intent_group_question_str=="ไม่ไม่มีสมาธิ":
         loop_check(0)
         add_status('concentration','ไม่เคย',data_from_dialogflow_dict)
-###########
     elif intent_group_question_str=="มีบ้าง_คิดทำร้ายตัวเอง":
         loop_check(1)
         add_status('hurt yourself','มีบ้าง',data_from_dialogflow_dict)
@@ -216,7 +215,7 @@ def update_status(status,data):
     db.collection('User').document(f'{user_Id}').update({
         u'status':status
     }) 
-###################################################
+#######################ประกาศสร้างdatabaseและเก็บค่าและอััพเดทค่า############################
 def user_info(data):
     username=data["queryResult"]["outputContexts"][1]["parameters"]["firstname"]
     lastname=data["queryResult"]["outputContexts"][1]["parameters"]["lastname"]
@@ -289,7 +288,7 @@ def update_date_and_status(data,status):
         u'datetime':formatted_date
     })  
 
-#########################################
+##################codeไว้ใช้checkค่าที่จะตอบกลับ#######################
 def notifyPic(url):  
     reply=[{"image":{"imageUri":url},"platform": "LINE"}]
     return reply
@@ -335,7 +334,6 @@ def recheck(data):
     res=doc.get().to_dict()
     resp=res['status']
     return resp
-#######################################
 def add_status(topic,status,data):
     topic=topic
     status=status
