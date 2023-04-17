@@ -60,7 +60,7 @@ def generating_answer(data_from_dialogflow_dict):
         update_date_and_status(data_from_dialogflow_dict,status)
         update_data(data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
-    elif intent_group_question_str=="ผลการประเมิน":
+    elif intent_group_question_str=="ผลการประเมินย้อนหลัง":
         check= recheck(data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(check))
     elif intent_group_question_str=="คำแนะนำ1":
@@ -242,8 +242,8 @@ def user_info(data):
         u'concern':"",
         u'myself':"",
         u'concentration':"",
-        u'do slow':"",
-        u'hurt yourself':"",
+        u'doslow':"",
+        u'hurtyourself':"",
         u'bored':"",
         u'meal':"",
         u'status':"",
@@ -257,7 +257,7 @@ def update_data(data):
     doc=collection.document(user_Id)
     res=doc.get().to_dict()
     resp=res['round']
-    resp=resp+1
+    resp=int (resp)+1
     db.collection('User').document(f'{user_Id}').update({
         u'round':resp
     })
@@ -267,8 +267,8 @@ def update_data(data):
         u'concern':"",
         u'myself':"",
         u'concentration':"",
-        u'do slow':"",
-        u'hurt yourself':"",
+        u'doslow':"",
+        u'hurtyourself':"",
         u'bored':"",
         u'meal':"",
         u'status':"",
@@ -282,7 +282,7 @@ def update_date_and_status(data,status):
     doc=collection.document(user_Id)
     res=doc.get().to_dict()
     resp=res['round']
-    now=datetime.now()
+    now=datetime.datetime.now()
     formatted_date=now.strftime("%d/%m/%Y")
     sub_collection_ref.document(f'{resp}').update({
         u'status':status,
@@ -370,11 +370,11 @@ def add_status(topic,status,data):
     })
     elif topic=='do slow':
         sub_collection_ref.document(f'{resp}').update({
-        u'do slow':status,
+        u'doslow':status,
     })
     elif topic=='hurt yourself':
         sub_collection_ref.document(f'{resp}').update({
-        u'hurt yourself':status,
+        u'hurtyourself':status,
     })
     elif topic=='bored':
         sub_collection_ref.document(f'{resp}').update({
