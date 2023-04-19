@@ -49,7 +49,7 @@ def generating_answer(data_from_dialogflow_dict):
     #เก็บค่าชื่อของintentที่รับมาจากdialogflow
     intent_group_question_str=data_from_dialogflow_dict["queryResult"]["intent"]["displayName"]
     #ลูปตัวเลือกของฟังชั่นสำหรับตอบคำถามกลับ
-    if intent_group_question_str=="เก็บข้อมูล":
+    if intent_group_question_str=="ทราบข้อมูล":
        answer_str=user_info(data_from_dialogflow_dict)
     elif intent_group_question_str=="start_con":
         global g_r 
@@ -60,9 +60,9 @@ def generating_answer(data_from_dialogflow_dict):
         update_date_and_status(data_from_dialogflow_dict,status)
         update_data(data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(status))
-    elif intent_group_question_str=="ผลการประเมินย้อนหลัง":
-        check= recheck(data_from_dialogflow_dict)
-        answer_str=notifyPic(check_respone(check))
+    # elif intent_group_question_str=="ผลการประเมินย้อนหลัง":
+    #     check= recheck(data_from_dialogflow_dict)
+    #     answer_str=notifyPic(check_respone(check))
     elif intent_group_question_str=="คำแนะนำ1":
         url=check_advice(data_from_dialogflow_dict)
         answer_str=notifyPic(url)
@@ -71,7 +71,8 @@ def generating_answer(data_from_dialogflow_dict):
     # elif intent_group_question_str=="ลอง":
     #       answer_str=upround()
     elif intent_group_question_str=="ดูการประเมินย้อนหลัง":
-          answer_str
+        check= recheck(data_from_dialogflow_dict)
+        answer_str=notifyPic(check_respone(check))
 #####################loopcheckintents###########################
     elif intent_group_question_str=="ไม่เคยคิดทำร้ายตัวเอง":
         loop_check(0)
