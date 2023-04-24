@@ -249,8 +249,8 @@ def user_info(data):
         u'status':"",
         u'datetime':""
     })
-    temp='บันทึกข้อมูลสำเร็จ'
-    return temp
+    # temp='บันทึกข้อมูลสำเร็จ'
+    # return temp
 def update_data(data):
     user_Id=data["originalDetectIntentRequest"]["payload"]["data"]["source"]["userId"]
     doc_ref = db.collection('User').document(f'{user_Id}')
