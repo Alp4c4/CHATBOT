@@ -70,7 +70,7 @@ def generating_answer(data_from_dialogflow_dict):
           answer_str=user_info(data_from_dialogflow_dict)
     # elif intent_group_question_str=="ลอง":
     #       answer_str=upround()
-    elif intent_group_question_str=="ดูการประเมินย้อนหลัง":
+    elif intent_group_question_str=="ล่าสุด":
         check= recheck(data_from_dialogflow_dict)
         answer_str=notifyPic(check_respone(check))
 #####################loopcheckintents###########################
